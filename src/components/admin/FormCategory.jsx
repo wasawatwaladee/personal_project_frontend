@@ -6,21 +6,15 @@ import { toast } from 'react-toastify'
 const FormCategory = () => {
     const [name,setName] = useState('')
     const token = useUserStore(state=>state.token)
-    const [categories,setCategories] = useState([])
+
+    const categories = useUserStore(state=>state.categories)
+    const getCategory = useUserStore(state=>state.getCategory)
     
     useEffect(()=>{
         getCategory(token)
     },[token])
 
-    const getCategory = async(token)=>{
-        try {
-            const res = await listCategory(token)
-            setCategories(res.data)
-
-        } catch (err) {
-            console.log(err)
-        }
-    }
+   
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
@@ -30,7 +24,10 @@ const FormCategory = () => {
         
         try {
             const res = await createCategory(token,{name})
-            toast.success(`Add Category ${res.data.name} success!!!`)
+           console.log('res', res)
+           console.log('name', name)
+            
+            toast.success(`Add Category ${res.data.category.name} success!!!`)
             setName('')
             getCategory(token)
         } catch (err) {
@@ -41,7 +38,7 @@ const FormCategory = () => {
     const handleRemove = async(id)=>{
         try {
            const res = await removeCategory(token,id) 
-           toast.success(`Deleted ${res.data.name} success`)
+           toast.success(`Deleted ${res.data.category.name} success`)
            getCategory(token)
 
         } catch (err) {
@@ -66,7 +63,6 @@ const FormCategory = () => {
         <ul className='list-none'>
             {
                 categories.map((item,index)=>(
-
                 <li 
                 className='flex justify-between my-2'
                 key={index}>
@@ -88,10 +84,4 @@ const FormCategory = () => {
 export default FormCategory
 
 
-/* const FormCategory = () => {
-  return (
-    <div>FormCategory</div>
-  )
-}
 
-export default FormCategory */

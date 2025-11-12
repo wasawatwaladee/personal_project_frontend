@@ -1,11 +1,27 @@
 import { create } from "zustand";
 import { createJSONStorage,persist } from "zustand/middleware";
 import { authApi } from "../api/authApi";
+import { listCategory } from "../api/Category";
+import { listProduct } from "../api/product";
 
 
 const useUserStore = create(persist((set,get)=>({
     user:null,
     token:'',
+    categories:[],
+    products:[],
+    getCategory : async(token)=>{
+            try {
+                const res = await listCategory(token)
+                set({
+                    categories:res.data
+                })
+    
+            } catch (err) {
+                console.log(err)
+            }
+        },
+
     login:async (input)=>{
         const resp = await authApi.post('/login',input)
         console.log('resp', resp)
@@ -14,7 +30,34 @@ const useUserStore = create(persist((set,get)=>({
         })
         return resp
     },
-    logout: ()=> set({token:'',user:null})
+    logout: ()=> set({token:'',user:null}),
+    // getProduct:async(token,count)=>{
+    //     console.log('count', count)   
+    //     try {
+    //             const res = await listProduct(token,count)
+    //             console.log(res)
+    //             set({
+    //                 products:res.data
+    //             })
+    
+    //         } catch (err) {
+    //             console.log(err)
+    //         }
+    //     },
+    getProduct:async(token)=>{
+         
+        try {
+                const res = await listProduct(token)
+                
+                set({
+                    products:res.data
+                })
+    
+            } catch (err) {
+                console.log(err)
+            }
+        },
+
 }),{
     name:'userState',
     storage:createJSONStorage(()=>localStorage)

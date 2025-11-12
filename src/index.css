@@ -1,4 +1,15 @@
 @import "tailwindcss";
 @import 'react-toastify/dist/ReactToastify.css';
 
-@plugin "daisyui";
+/* @plugin "daisyui"; */
+
+@plugin "daisyui" {
+    themes: light --default;
+}
+
+@plugin "daisyui/theme" {
+    default: true;
+    prefersdark: false;
+    color-scheme: light;
+
+}

@@ -6,7 +6,7 @@ export const createCategory = async(token,form)=>{
     headers:{
         Authorization:`Bearer ${token}`
     }
-  })  
+  })    
 }
 
 export const listCategory = async(token)=>{
