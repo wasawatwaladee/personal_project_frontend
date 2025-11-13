@@ -1,9 +1,9 @@
 import  { useEffect, useState } from 'react'
 import useUserStore from '../../stores/userStore'
-import { createProduct, removeProduct } from '../../api/product'
+import {  readProduct, removeProduct, updateProduct } from '../../api/product'
 import { toast } from 'react-toastify'
 import Uploadfile from './Uploadfile'
-import { Link } from 'react-router'
+import { useParams } from 'react-router'
 
 
 
@@ -16,15 +16,21 @@ import { Link } from 'react-router'
     images:[]
 
     }
-const FormProduct = () => {
+const FormEditProduct = () => {
+    const {id} = useParams()
     const token = useUserStore(state=>state.token)
     const getCategory = useUserStore(state=>state.getCategory)
     const categories = useUserStore(state=>state.categories)
-    const getProduct = useUserStore(state=>state.getProduct)
-    const products = useUserStore(state=>state.products)
+    
     const [form,setForm] = useState(initialState)
     // console.log('products', products)
- 
+
+     useEffect(()=>{
+        getCategory(token)
+        fetchProduct(token,id,form)
+        
+    },[])
+  console.log('form', form)
     const handleOnChange = (e)=>{
         setForm(
             {
@@ -36,35 +42,42 @@ const FormProduct = () => {
     const handleSubmit = async(e)=>{
         e.preventDefault();
         try {
-            const res = await createProduct(token,form)
+            const res = await updateProduct(token,form)
+            
             // console.log('res', res)
-            getProduct(token)
-            setForm(initialState)
+            
+            
             toast.success(res.data.product.title + " successfully created")
         } catch (err) { 
             console.log(err)
         }
     }
 
-      const handleRemove = async(id)=>{
-            try {
-               const res = await removeProduct(token,id)
-            //    console.log('res', res) 
-            //    console.log('res', res) 
-               toast.success(`Deleted ${res.data.product.title} success`)
-               getProduct(token)
+    //   const handleRemove = async(id)=>{
+    //         try {
+    //            const res = await removeProduct(token,id)
+    //         //    console.log('res', res) 
+    //         //    console.log('res', res) 
+    //            toast.success(`Deleted ${res.data.product.title} success`)
+              
     
-            } catch (err) {
-                console.log(err)
-            }
+    //         } catch (err) {
+    //             console.log(err)
+    //         }
+    //     }
+
+
+   
+
+    const fetchProduct = async(token,id,form)=>{
+        try {
+            const res = await readProduct(token,id,form)
+            setForm(res.data)
+        } catch (err) {
+            console.log(err)
         }
-
-
-    useEffect(()=>{
-        getCategory(token)
-        getProduct(token)
-    },[token])
-    
+    }
+   
   return (
     <div className='container mx-auto p-4 bg-white shadow-md text-black'>
         <form onSubmit={handleSubmit}>
@@ -121,40 +134,11 @@ const FormProduct = () => {
             
 
             <hr />
+            <br />
 
-<table className="table-auto">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Price</th>
-      <th>Sold</th>
-      <th>Quantity</th>
-      <th>UpdatedAt </th>
-      <th>Manage </th>
-    </tr>
-  </thead>
-  <tbody>
-    {products.map(product=>(
-        <tr key={product.id}>
-            <td>{product.title}</td>
-            <td>{product.description}</td>
-            <td>{product.price}</td>
-            <td>{product.sold}</td>
-            <td>{product.quantity}</td>
-            <td>{product.updatedAt}</td>
-            <td>
-                <button className='btn m-2'><Link to = {`/admin/product/${product.id}`} >  update  </Link></button>
-                <button onClick={()=>handleRemove(product.id)} className='btn'>delete</button>
-            </td>
-        </tr>
-    ))}
-    
-  </tbody>
-</table>
         </form>
     </div>
   )
 }
 
-export default FormProduct
+export default FormEditProduct

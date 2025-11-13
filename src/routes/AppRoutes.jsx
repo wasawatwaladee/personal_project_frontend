@@ -17,6 +17,8 @@ import HomeUser from "../pages/user/HomeUser";
 import ProtectRouteUser from "./ProtectRouteUser";
 import ProtectRouteAdmin from "./ProtectRouteAdmin";
 import Root from "../components/Root";
+import EditProduct from "../pages/admin/EditProduct";
+
 
 const router = createBrowserRouter([
   {
@@ -49,6 +51,7 @@ const router = createBrowserRouter([
     children:[
       {index:true,element:<Dashboard/>},
       {path:"product",element:<Product/>},
+      {path:"product/:id",element:<EditProduct/>},
       {path:"category",element:<Category/>},
       {path:"manage",element:<Manage />},
     ]
