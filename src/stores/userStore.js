@@ -10,9 +10,9 @@ const useUserStore = create(persist((set,get)=>({
     token:'',
     categories:[],
     products:[],
-    getCategory : async(token)=>{
+    getCategory : async()=>{
             try {
-                const res = await listCategory(token)
+                const res = await listCategory()
                 set({
                     categories:res.data
                 })
@@ -44,10 +44,10 @@ const useUserStore = create(persist((set,get)=>({
     //             console.log(err)
     //         }
     //     },
-    getProduct:async(token)=>{
+    getProduct:async()=>{
          
         try {
-                const res = await listProduct(token)
+                const res = await listProduct()
                 
                 set({
                     products:res.data

@@ -3,12 +3,14 @@ import { toast } from "react-toastify";
 import Resize from "react-image-file-resizer"
 import { removeFiles, uploadFiles } from "../../api/product";
 import useUserStore from "../../stores/userStore";
+import { Loader } from "lucide-react";
 
 
 const Uploadfile = ({form,setForm}) => {
 const [isLoading, setIsLoading] = useState(false);
 const token = useUserStore(state=>state.token)
   const handleOnChange = async(e)=>{
+    setIsLoading(true)
     const files = e.target.files
     if(files){
         setIsLoading(true)
@@ -34,7 +36,7 @@ const token = useUserStore(state=>state.token)
               (data)=>{
                 //endpoint Backend
                 // uploadFiles(token,data)
-                uploadFiles(token,{images:data})
+                uploadFiles(token,data)
                 .then(res=>{
                   // console.log(res)
                   allFlies.push(res.data.result)
@@ -43,10 +45,12 @@ const token = useUserStore(state=>state.token)
                     images:allFlies
 
                   })
+                  setIsLoading(false)
                   toast.success("Upload image success")
                 })
                 .catch(err=>{
                   console.log(err)
+                  setIsLoading(false)
                 })
               },
               "base64"
@@ -83,6 +87,10 @@ const token = useUserStore(state=>state.token)
     <div>
 
       <div className="flex mx-4 gap-4 my-4">
+        {
+          isLoading && <Loader className="w-16 h-16 animate-spin" />
+        }
+
       {/* Image */}
       {
         form.images?.map((item,index)=>(
@@ -96,14 +104,35 @@ const token = useUserStore(state=>state.token)
       }
       </div>
 
-      <div>
+      {/* <div >
         <input 
+        
         onChange={handleOnChange}
         type="file" 
         name='images'
         multiple //เลือกรูปภาพได้หลายรูป
         />
-      </div>
+      </div> */}
+
+       <div className="my-3">
+    {/* ซ่อน input ไว้ */}
+    <input
+      id="upload-image"
+      type="file"
+      name="images"
+      multiple
+      onChange={handleOnChange}
+      className="hidden"
+    />
+
+    {/* ปุ่มที่ใช้แทน input */}
+    <label
+      htmlFor="upload-image"
+      className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+    >
+      Choose Images
+    </label>
+  </div>
     
     </div>
   )

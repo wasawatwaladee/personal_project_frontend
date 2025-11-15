@@ -1,9 +1,9 @@
 import  { useEffect, useState } from 'react'
 import useUserStore from '../../stores/userStore'
-import {  readProduct, removeProduct, updateProduct } from '../../api/product'
+import {  readProduct,  updateProduct } from '../../api/product'
 import { toast } from 'react-toastify'
 import Uploadfile from './Uploadfile'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 
 
 
@@ -18,6 +18,7 @@ import { useParams } from 'react-router'
     }
 const FormEditProduct = () => {
     const {id} = useParams()
+    const navigate = useNavigate()
     const token = useUserStore(state=>state.token)
     const getCategory = useUserStore(state=>state.getCategory)
     const categories = useUserStore(state=>state.categories)
@@ -26,11 +27,10 @@ const FormEditProduct = () => {
     // console.log('products', products)
 
      useEffect(()=>{
-        getCategory(token)
+        getCategory()
         fetchProduct(token,id,form)
         
     },[])
-  console.log('form', form)
     const handleOnChange = (e)=>{
         setForm(
             {
@@ -42,12 +42,13 @@ const FormEditProduct = () => {
     const handleSubmit = async(e)=>{
         e.preventDefault();
         try {
-            const res = await updateProduct(token,form)
+            const res = await updateProduct(token,id,form)
             
-            // console.log('res', res)
+            console.log('res from formEditProduct for updateProduct', res)
             
+            toast.success(res.data.product.title + " successfully update")
             
-            toast.success(res.data.product.title + " successfully created")
+            navigate('/admin/product')
         } catch (err) { 
             console.log(err)
         }
@@ -72,7 +73,8 @@ const FormEditProduct = () => {
     const fetchProduct = async(token,id,form)=>{
         try {
             const res = await readProduct(token,id,form)
-            setForm(res.data)
+            console.log('res from formEditProduct for readProduct', res)
+            setForm(res.data.product)
         } catch (err) {
             console.log(err)
         }
@@ -130,7 +132,7 @@ const FormEditProduct = () => {
             <Uploadfile form={form} setForm={setForm} />        
 
 
-            <button  className='bg-green-600'>Add product</button>
+            <button  className='btn bg-green-600'>Update product</button>
             
 
             <hr />

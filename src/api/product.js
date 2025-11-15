@@ -16,12 +16,8 @@ export const createProduct = async(token,form)=>{
 //     }
 //   })  
 // }
-export const listProduct = async(token)=>{
-  return axios.get(`http://localhost:8000/api/products`,{
-    headers:{
-        Authorization:`Bearer ${token}`
-    }
-  })  
+export const listProduct = async()=>{
+  return axios.get(`http://localhost:8000/api/products`)  
 }
 export const readProduct = async(token,id)=>{
   return axios.get(`http://localhost:8000/api/product/${id}`,{
@@ -39,7 +35,9 @@ export const updateProduct = async(token,id,form)=>{
 }
 
 export const uploadFiles = async(token,form)=>{
-  return axios.post(`http://localhost:8000/api/images`,form,
+  return axios.post(`http://localhost:8000/api/images`,{
+    images:form
+  },
     {
     headers:{
       Authorization:`Bearer ${token}`

@@ -16,7 +16,7 @@ import Layout from "../Layouts/Layout";
 import HomeUser from "../pages/user/HomeUser";
 import ProtectRouteUser from "./ProtectRouteUser";
 import ProtectRouteAdmin from "./ProtectRouteAdmin";
-import Root from "../components/Root";
+// import Root from "../components/Root";
 import EditProduct from "../pages/admin/EditProduct";
 
 
