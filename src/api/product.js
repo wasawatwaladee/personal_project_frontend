@@ -19,6 +19,9 @@ export const createProduct = async(token,form)=>{
 export const listProduct = async()=>{
   return axios.get(`http://localhost:8000/api/products`)  
 }
+export const searchFilters = async(arg)=>{
+  return axios.post(`http://localhost:8000/api/search/filters/`,arg)  
+}
 export const readProduct = async(token,id)=>{
   return axios.get(`http://localhost:8000/api/product/${id}`,{
     headers:{

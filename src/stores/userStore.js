@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage,persist } from "zustand/middleware";
 import { authApi } from "../api/authApi";
 import { listCategory } from "../api/Category";
-import { listProduct } from "../api/product";
+import { listProduct, searchFilters } from "../api/product";
 
 
 const useUserStore = create(persist((set,get)=>({
@@ -21,6 +21,18 @@ const useUserStore = create(persist((set,get)=>({
                 console.log(err)
             }
         },
+        searchFilters:async(count)=>{
+            try {
+                const res = await searchFilters(count)
+                set({
+                    products:res.data.product
+                })
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        ,
+
 
     login:async (input)=>{
         const resp = await authApi.post('/login',input)

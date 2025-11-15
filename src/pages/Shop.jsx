@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import ProductCard from '../components/card/ProductCard'
 import useUserStore from '../stores/userStore'
+import SearchCard from '../components/card/SearchCard'
 
 const Shop = () => {
   const getProduct = useUserStore(state=>state.getProduct)
@@ -17,7 +18,7 @@ const Shop = () => {
       
       {/* SearchBy */}
       <div className='w-1/4 p-4 h-screen'>
-        Searchbar
+        <SearchCard />
       </div>
 
       {/* Product */}
