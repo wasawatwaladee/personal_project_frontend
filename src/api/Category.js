@@ -1,22 +1,14 @@
-import axios from "axios";
+import axiosInstance from "./axiosApi"
 
 
-export const createCategory = async(token,form)=>{
-  return axios.post('http://localhost:8000/api/category',form,{
-    headers:{
-        Authorization:`Bearer ${token}`
-    }
-  })    
+export const createCategory = async(form)=>{
+  return axiosInstance.post('/category',form)    
 }
 
 export const listCategory = async()=>{
-  return axios.get('http://localhost:8000/api/category')  
+  return axiosInstance.get('/category')  
 }
 
-export const removeCategory = async(token,id)=>{
-  return axios.delete(`http://localhost:8000/api/category/${id}`,{
-    headers:{
-        Authorization:`Bearer ${token}`
-    }
-  })  
+export const removeCategory = async(id)=>{
+  return axiosInstance.delete(`/category/${id}`)  
 }

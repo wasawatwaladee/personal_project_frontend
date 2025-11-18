@@ -36,7 +36,7 @@ const token = useUserStore(state=>state.token)
               (data)=>{
                 //endpoint Backend
                 // uploadFiles(token,data)
-                uploadFiles(token,data)
+                uploadFiles(data)
                 .then(res=>{
                   // console.log(res)
                   allFlies.push(res.data.result)
@@ -65,7 +65,7 @@ const token = useUserStore(state=>state.token)
   const handleDelete = async(public_id)=>{
     // console.log(public_id)
     const images  = form.images
-    removeFiles(token,public_id)
+    removeFiles(public_id)
     .then((res)=>{
       const filterImages = images.filter((item,index)=>{
         return item.public_id !== public_id

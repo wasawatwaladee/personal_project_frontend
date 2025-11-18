@@ -3,7 +3,6 @@ import Home from "../pages/Home";
 import Shop from "../pages/Shop";
 import Cart from "../pages/Cart";
 import History from "../pages/History";
-import CheckOut from "../pages/CheckOut";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Dashboard from "../pages/admin/Dashboard";
@@ -18,6 +17,8 @@ import ProtectRouteUser from "./ProtectRouteUser";
 import ProtectRouteAdmin from "./ProtectRouteAdmin";
 // import Root from "../components/Root";
 import EditProduct from "../pages/admin/EditProduct";
+import Checkout from "../pages/CheckOut";
+import Payment from "../pages/user/Payment";
 
 
 const router = createBrowserRouter([
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
       { path: "shop", element: <Shop /> },
       { path: "cart", element: <Cart /> },
       { path: "history", element: <History /> },
-      { path: "checkout", element: <CheckOut /> },
+      { path: "checkout", element: <Checkout /> },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
     ]
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
     ,
     children:[
       {index:true,element:<HomeUser/>},
+      {path:"payment",element:<Payment />}
     ]
   }
 ]);

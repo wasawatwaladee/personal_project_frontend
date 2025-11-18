@@ -2,6 +2,7 @@ import React from 'react'
 import { Outlet } from 'react-router'
 import SidebarAdmin from '../components/admin/SidebarAdmin'
 import HeaderBar from '../components/admin/HeaderBar'
+import MainNav from '../components/MainNav'
 
 const LayoutAdmin = () => {
   return (
@@ -9,7 +10,8 @@ const LayoutAdmin = () => {
         <SidebarAdmin />
         <div className='flex-1 flex flex-col'>
         
-        <HeaderBar />
+        {/* <HeaderBar /> */}
+        <MainNav />
         <main className='flex-1 p-6 bg-gray-100 overflow-y-auto'>
         <Outlet/>
         </main>

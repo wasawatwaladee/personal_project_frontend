@@ -9,7 +9,9 @@ import { Loader } from 'lucide-react';
 
 
 
-   const initialState ={
+  
+const FormProduct = () => {
+     const initialState ={
     title: "",
     description: "",
     price:0,
@@ -18,15 +20,13 @@ import { Loader } from 'lucide-react';
     images:[]
 
     }
-const FormProduct = () => {
-    const token = useUserStore(state=>state.token)
     const getCategory = useUserStore(state=>state.getCategory)
     const categories = useUserStore(state=>state.categories)
     const getProduct = useUserStore(state=>state.getProduct)
     const products = useUserStore(state=>state.products)
     const [form,setForm] = useState({
     title: "",
-    description: "",
+    description: "" ,
     price:0,
     quantity:0,
     categoryId:"",
@@ -39,6 +39,8 @@ const FormProduct = () => {
         getProduct()
     },[])
     
+    
+
     const handleOnChange = (e)=>{
         setForm(
             {
@@ -50,7 +52,7 @@ const FormProduct = () => {
         const handleSubmit = async(e)=>{
             e.preventDefault();
             try {
-                const res = await createProduct(token,form)
+                const res = await createProduct(form)
                 // console.log('res', res)
                 getProduct()
                 setForm(initialState)
@@ -62,11 +64,12 @@ const FormProduct = () => {
         
         const handleRemove = async(id)=>{
             try {
-                const res = await removeProduct(token,id)
+                const res = await removeProduct(id)
                 //    console.log('res', res) 
                 //    console.log('res', res) 
                 toast.success(`Deleted ${res.data.newProduct.title} success`)
                 getProduct()
+                console.log('id', id)
                 
             } catch (err) {
                 console.log(err)
@@ -153,7 +156,8 @@ const FormProduct = () => {
         <tr key={product.id}>
             <td>{product.title}</td>
             <td>
-            {product.images.length > 0 ? 
+            {
+            product.images.length > 0 ? 
             <img 
             className='w-24 h-24 rounded-md'
             src={product.images[0].url}  />
@@ -169,7 +173,8 @@ const FormProduct = () => {
             <td>{product.quantity}</td>
             <td>{product.updatedAt}</td>
             <td>
-                <button className='btn bg-blue-500 m-2'><Link to = {`/admin/product/${product.id}`} >  update  </Link></button>
+                {/* <button className='btn bg-blue-500 m-2'><Link to = {`/admin/product/${product.id}`} >  update  </Link></button> */}
+                <Link to = {`/admin/product/${product.id}`} ><button className='btn bg-blue-500 m-2'>  update </button></Link>
                 <button onClick={()=>handleRemove(product.id)} className='btn bg-red-500'>delete</button>
             </td>
         </tr>

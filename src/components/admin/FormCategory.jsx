@@ -11,8 +11,8 @@ const FormCategory = () => {
     const getCategory = useUserStore(state=>state.getCategory)
     
     useEffect(()=>{
-        getCategory(token)
-    },[token])
+        getCategory()
+    },[])
 
    
 
@@ -23,13 +23,13 @@ const FormCategory = () => {
         }
         
         try {
-            const res = await createCategory(token,{name})
+            const res = await createCategory({name})
            console.log('res', res)
            console.log('name', name)
             
             toast.success(`Add Category ${res.data.category.name} success!!!`)
             setName('')
-            getCategory(token)
+            getCategory()
         } catch (err) {
             console.log(err)
         }
@@ -37,9 +37,9 @@ const FormCategory = () => {
 
     const handleRemove = async(id)=>{
         try {
-           const res = await removeCategory(token,id) 
+           const res = await removeCategory(id) 
            toast.success(`Deleted ${res.data.category.name} success`)
-           getCategory(token)
+           getCategory()
 
         } catch (err) {
             console.log(err)
