@@ -50,6 +50,7 @@ const FormProduct = () => {
         }
         
         const handleSubmit = async(e)=>{
+
             e.preventDefault();
             try {
                 const res = await createProduct(form)
@@ -64,12 +65,13 @@ const FormProduct = () => {
         
         const handleRemove = async(id)=>{
             try {
+                console.log('id', id)
                 const res = await removeProduct(id)
-                //    console.log('res', res) 
+                   console.log('res', res) 
                 //    console.log('res', res) 
                 toast.success(`Deleted ${res.data.newProduct.title} success`)
                 getProduct()
-                console.log('id', id)
+                
                 
             } catch (err) {
                 console.log(err)
@@ -99,6 +101,7 @@ const FormProduct = () => {
             onChange={handleOnChange}
             className='border'
             type="text" />
+            
             
             <input 
             placeholder='input price'
@@ -133,8 +136,8 @@ const FormProduct = () => {
             <Uploadfile form={form} setForm={setForm} />        
 
 
-            <button  className='btn bg-green-600'>Add product</button>
-            
+            <button  type='submit' className='btn bg-green-600'>Add product</button>
+            </form>
 
             <hr />
 
@@ -182,7 +185,7 @@ const FormProduct = () => {
     
   </tbody>
 </table>
-        </form>
+        
     </div>
   )
 }

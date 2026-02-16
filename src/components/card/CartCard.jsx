@@ -7,6 +7,7 @@ import {  ShoppingCart } from 'lucide-react';
 import { createUserCart } from '../../api/user';
 import { toast } from 'react-toastify';
 import { Link, Navigate, useNavigate } from 'react-router';
+import { set } from 'lodash';
 
 
 
@@ -23,19 +24,43 @@ export default function CartCard() {
 
 
   const handleCart = async()=>{
+    console.log('carts', carts)
+   
     try {
+      if(carts.length===0){
+        toast.warning('ไม่มีสินค้าในตะกร้า')
+        return
+      }
+      carts.map(item=>{
+      if(!item.isActive){ 
+      toast.error('เอาสินค้าที่ไม่มีออกก่อนนะ')
+      return
+      
+      }
+
+      
+      if(item.quantity<item.count){
+        toast.error("ขออภัย สินค้า "+ item.title +" มีจำนวนไม่เพียงพอ")
+        return 
+      }
+    
+      
+    })
       await createUserCart({cart:carts})
       toast.success(`Add carts successful`)
-      // navigate('/checkout')
-    } catch (error) {
+      setOpen(false)
+      navigate('/checkout')
+    } 
+      catch (error) {
       console.log(error)
+      navigate('/shop')
     }
   }
   return (
     <div>
       <button 
         onClick={() => setOpen(true)}
-        className="relative rounded-md bg-gray-950/5 px-2.5 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-950/10"
+        className="relative rounded-md bg-gray-950/5 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-gray-950/10"
       >
        <ShoppingCart className='relative '/>
        {carts.length > 0 && <span className='absolute top-0 right-0 rounded-full bg-red-500 w-[15px]'>{carts.length}</span>}
@@ -76,11 +101,12 @@ export default function CartCard() {
                         <ul role="list" className="-my-6 divide-y divide-gray-200">
                           
                           {/* Show Product in Cart */}
-                          {carts.map((item,index) => (
+                          {carts.map((item,index) => {
+                            
+                            return (
                             <li key={index} className="flex py-6">
                               <div className="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
                                
-                                {/* <img src={item.images[0].url} className="size-full object-cover" /> */}
                                  {
                                   item.images &&item.images.length>0
                                   ?<img className='rounded-md w-full h-full object-fill hover:scale-110 hover:duration-200' src={item.images[0].url}/>
@@ -91,13 +117,13 @@ export default function CartCard() {
                                     No image
                                 </div>
                                 }
+
                               </div>
 
                               <div className="ml-4 flex flex-1 flex-col">
                                 <div>
                                   <div className="flex justify-between text-base font-medium text-gray-900">
                                     <h3>{item.title}</h3>
-                                    
                                     <p className="ml-4">{item.price*item.count}</p>
                                   </div>
                                 
@@ -108,26 +134,46 @@ export default function CartCard() {
                                     {item.description}
                                     </h5>
                                 </div>
+                                
+                                
                                 <div className="flex flex-1 items-center justify-between text-sm ">
+                                  
                                   <p className="text-gray-500">Qty {item.quantity}</p>
+                                 
                                   <div className='flex justify-between items-center'>
                                     <button onClick={()=>updateQuantity(item.id,item.count-1)} className='btn' >-</button>
                                     <span className='px-2 py-1'>
                                       
-                                      {item.count}
+                                      {item.count} 
                                       
                                       </span>
                                     <button onClick={()=>updateQuantity(item.id,item.count+1)} className='btn'>+</button>
                                   </div>
+
                                   <div className="flex">
                                     <button onClick={()=>removeProduct(item.id)} type="button" className="font-medium text-[#e19c5d] hover:text-[#a07246]">
                                       Remove
                                     </button>
                                   </div>
+                                 
                                 </div>
+                              
+                              { item.quantity < item.count ?
+
+                                 <div className='flex justify-center text-red-500'>
+                                    Product is out of stock
+                                  </div>
+                                  : null
+                                  // <div>
+                                  //   Enjoy
+                                  // </div>
+                              }
                               </div>
+
+                             
                             </li>
-                          ))}
+                            )
+})}
                         </ul>
                       </div>
                     </div>
@@ -142,7 +188,7 @@ export default function CartCard() {
                     
                     {user ?  
                     <div className="mt-6">
-                      <Link to={'/checkout'}>
+                      <Link >
                       <button onClick={()=>handleCart()}
                             className="flex  w-full items-center justify-center rounded-md border border-transparent bg-[#C55939] px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-[#db914c]"
                           >

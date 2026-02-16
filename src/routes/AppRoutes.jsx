@@ -33,6 +33,7 @@ const router = createBrowserRouter([
       { path: "checkout", element: <Checkout /> },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
+     
     ]
   },
  
@@ -60,11 +61,11 @@ const router = createBrowserRouter([
   {
     path:"/user",
     element: <ProtectRouteUser element={<LayoutUser />} />
-    // element: <LayoutUser /> 
     ,
     children:[
-      {index:true,element:<HomeUser/>},
-      {path:"payment",element:<Payment />}
+      {index:true,element:<Home />},
+       {path:"payment",element:<Payment />}
+      
     ]
   }
 ]);

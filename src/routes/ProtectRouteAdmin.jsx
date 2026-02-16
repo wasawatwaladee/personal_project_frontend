@@ -1,31 +1,8 @@
-// import { useEffect } from "react"
-// import useUserStore from "../stores/userStore"
-// import { currentAdmin } from "../api/authApi"
-
-// const ProtectRouteAdmin = ({element}) => {
-//     const user =  useUserStore(state=>state.user)
-//     const token =  useUserStore(state=>state.token)
-
-//     useEffect(()=>{
-//         if(user && token){
-//             try {
-//                 currentAdmin(token)
-                
-//             } catch (error) {
-//                 console.log(error)
-//             }
-//         }
-//     },[])
-//     return element
-// }
-
-// export default ProtectRouteAdmin
-
-
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import useUserStore from "../stores/userStore";
 import { currentAdmin } from "../api/authApi";
+import { toast } from "react-toastify";
 
 const ProtectRouteAdmin = ({ element }) => {
   const token = useUserStore((state) => state.token);
@@ -58,8 +35,8 @@ const ProtectRouteAdmin = ({ element }) => {
   if (isLoading) return <div>Loading...</div>;
 
   if (!isAuth){
-    
-      return <Navigate to="/login" replace />;
+      toast.warning("You are not admin")
+      return <Navigate to="/" replace />;
   }
 
   return element;

@@ -1,26 +1,3 @@
-// import { useEffect } from "react"
-// import useUserStore from "../stores/userStore"
-// import {  currentUser } from "../api/authApi"
-
-// const ProtectRouteUser = ({element}) => {
-//     const user =  useUserStore(state=>state.user)
-//     const token =  useUserStore(state=>state.token)
-
-//     useEffect(()=>{
-//         if(user && token){
-//             try {
-//                 currentUser(token)
-                
-//             } catch (error) {
-//                 console.log(error)
-//             }
-//         }
-//     },[])
-//     return element
-// }
-// export default ProtectRouteUser
-
-
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import useUserStore from "../stores/userStore";
@@ -59,7 +36,7 @@ const ProtectRouteUser = ({ element }) => {
 
   if (!isAuth) {
     
-      return <Navigate to="/login" replace />;
+      return <Navigate to="/shop" replace />;
   }
 
   return element;

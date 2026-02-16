@@ -13,7 +13,8 @@ const useUserStore = create(persist((set,get)=>({
     categories:[],
     products:[],
     carts:[],
-    getTotalPrice:()=>{
+    clearCart:()=>set({carts:[]})
+    ,getTotalPrice:()=>{
         const carts = get().carts
         const subTotal = carts.reduce((total,item)=>{
             return total+item.price*item.count
@@ -22,14 +23,14 @@ const useUserStore = create(persist((set,get)=>({
     },
     updateQuantity:(productId,newQty)=>{
         const carts = get().carts
-        console.log('carts', carts)
-       set(state=>({
+        set(state=>({
             carts:state.carts.map(item=>
                 item.id === productId 
                 ? {...item,count:Math.max(1,newQty)}
                 : item
             )
         }))
+        console.log('carts', carts)
     },
     addToCart:(product)=>{
         const carts = get().carts
@@ -66,7 +67,7 @@ const useUserStore = create(persist((set,get)=>({
                 console.log(err)
             }
         },
-        searchFilters:async(count)=>{
+    searchFilters:async(count)=>{
             try {
                 const res = await searchFilters(count)
                 set({
@@ -77,8 +78,6 @@ const useUserStore = create(persist((set,get)=>({
             }
         }
         ,
-
-
     login:async (input)=>{
         const resp = await authApi.post('/login',input)
         console.log('resp', resp)
@@ -89,19 +88,7 @@ const useUserStore = create(persist((set,get)=>({
         return resp
     },
     logout: ()=> set({token:'',user:null,carts:[]}),
-    // getProduct:async(token,count)=>{
-    //     console.log('count', count)   
-    //     try {
-    //             const res = await listProduct(token,count)
-    //             console.log(res)
-    //             set({
-    //                 products:res.data
-    //             })
     
-    //         } catch (err) {
-    //             console.log(err)
-    //         }
-    //     },
     getProduct:async()=>{
         try {
                 const res = await listProduct()

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import logo from '../img/logo.png';
 import useUserStore from "../stores/userStore";
 import { useNavigate } from "react-router";
-import story from '../img/story.png'
+import shop from '../img/shop.jpg';
 
 export default function Home() {
   
@@ -23,7 +23,7 @@ useEffect(()=>{
 },[])
 
   return (
-    <div className="min-h-screen bg-[#f1e3c7] text-stone-800">
+    <div className="min-h-screen bg-[#f1e3c7] text-white">
       {/* Hero */}
       <section 
        style={{ backgroundImage: `url(${logo})` }}
@@ -58,10 +58,10 @@ useEffect(()=>{
   <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
     {/* Left Image */}
-    <div className="flex justify-center">
+    <div className="flex justify-center"
+    >
       <img 
-      // src={story}
-      src='https://smashinglogo.com/envision/ai/mockups/resources/aimockup_0.webp?refNumber=_kqsyicn18&svgFilename=1763391098141_rncp3czoq_hex_bf9474_hex2_f1b434_patt57.svg&index=0'
+      src={shop}
         
         className="rounded-3xl shadow-xl w-full h-full flex items-center justify-center "
       />
@@ -72,10 +72,10 @@ useEffect(()=>{
       <h2 className="text-3xl font-semibold text-stone-900 mb-6">
         Our History
       </h2>
-      <p className="text-stone-700 text-lg leading-relaxed mb-5">
+      {/* <p className="text-stone-700 text-lg leading-relaxed mb-5">
         Cozy Bun began in a small family kitchen where traditional steaming
         techniques and secret recipes were passed through generations.
-      </p>
+      </p> */}
       <p className="text-stone-700 text-lg leading-relaxed">
         จุดเริ่มต้นของเรามาจากความทรงจำที่แสนอบอุ่น... ความสุขง่ายๆ ที่ได้เห็นไอร้อนกรุ่นลอยขึ้นจากซาลาเปาลูกขาวในตอนเช้า
 

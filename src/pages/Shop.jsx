@@ -15,13 +15,6 @@ const Shop = () => {
   },[])
   
 
-  // const handleCart = async()=>{
-  //   try {
-  //     await createUserCart({carts})
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
 
   console.log('user from Shop page',user)
   
@@ -37,7 +30,7 @@ const Shop = () => {
 
       {/* Product Title */}
       <div className='w-3/4 p-4 h-screen overflow-y-auto'>
-        <p className='text-2xl font-bold mb-4'>Products</p>
+        <p className='text-2xl font-bold mb-4 text-white'>Menu</p>
         <div className='flex flex-wrap gap-4'>
           {/* Product card */}
             {

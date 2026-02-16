@@ -25,11 +25,12 @@ const ProductCard = ({item}) => {
         </div>
         
         <div className="flex justify-between items-center"> 
-            <span className='text-lg font-bold text-[#C55939]'>{item.price}</span>
+            <span className='text-lg font-bold text-[#C55939]'>{item?.price} บาท</span>
             <button className='tbg-[#C55939] bg-[#e19c5d] rounded-xl p-2 
                      hover:bg-[#C55939] transition-all duration-200 shadow-sm'
             onClick={()=>addToCart(item)}
-            ><ShoppingCart  />
+            >
+            <ShoppingCart  />
             </button>
         </div>
     </div>
